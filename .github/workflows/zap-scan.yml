@@ -1,9 +1,7 @@
 name: OWASP ZAP Active Scan
 
 on:
-  # Trigger manually via the "Actions" tab
   workflow_dispatch:
-  # Or trigger on every push to main
   push:
     branches: [ "master" ]
 
@@ -18,7 +16,7 @@ jobs:
 
       # Step 2: Run the scan using your existing plan
       - name: ZAP Automation Scan
-        uses: zaproxy/action-af@v0.5.0
+        uses: zaproxy/action-af@main
         with:
           # Point to your YAML file in the repo
           plan: 'active-scan-no-auth.yaml'
