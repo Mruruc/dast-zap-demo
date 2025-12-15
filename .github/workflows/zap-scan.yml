@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   # Or trigger on every push to main
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   zap_scan:
