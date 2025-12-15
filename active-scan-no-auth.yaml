@@ -1,0 +1,59 @@
+env:
+  contexts:
+    - name: juice-shop
+      urls:
+        - https://owasp-juice-shop-2647a56b3bfa.herokuapp.com
+      includePaths:
+        - https://owasp-juice-shop-2647a56b3bfa.herokuapp.com.*
+      excludePaths:
+        - .*\.png
+        - .*\.jpg
+        - .*\.css
+        - .*\.woff.*
+        - .*googleapis.*
+        - .*gstatic.*
+
+jobs:
+
+  # -------------------------
+  # 1. Traditional Spider
+  # -------------------------
+  - type: spider
+    parameters:
+      context: juice-shop
+      maxDuration: 3
+
+  # -------------------------
+  # 2. AJAX Spider (FIXED NAME)
+  # -------------------------
+  - type: spiderAjax    
+    parameters:
+      context: juice-shop
+      maxDuration: 5
+
+  # -------------------------
+  # 3. Passive Scan Wait
+  # -------------------------
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 5
+
+  # -------------------------
+  # 4. Active Scan (ATTACKS)
+  # -------------------------
+  - type: activeScan
+    parameters:
+      context: juice-shop
+      policy: Default Policy
+      maxRuleDurationInMins: 2 # WAS: 2 (Limit time per specific rule)
+      maxScanDurationInMins: 5 # WAS: 20 (Total attack time limited to 5 mins)
+
+  # -------------------------
+  # 5. Generate HTML Report
+  # -------------------------
+  - type: report
+    parameters:
+      reportDir: /zap/wrk
+      reportFile: juice-shop-active.html
+      reportTitle: OWASP Juice Shop – Active Scan
+      template: traditional-html
